@@ -1,14 +1,8 @@
 import { useEffect, useState, FC } from "react"
 import { useParams, useNavigate } from "react-router-dom";
-import { DB_URL_USERS } from "../data/_secret";
 import { useUser } from "../hooks/useUser";
 import SocialNetvork from "./SocialNetvork";
 
-
-import { TelegramShareButton, ViberShareButton, WhatsappShareButton } from "react-share";
-import { TelegramIcon, ViberIcon, WhatsappIcon } from "react-share";
-
-// const Card: FC = ({qwert} : {qwert: string}) => {
 const Card: FC = ( ) => {
   const { id } = useParams();
   const idNumb = id ? parseInt(id) : 0;
@@ -18,26 +12,23 @@ const Card: FC = ( ) => {
 
   const goBack = () => navigate(-1);
 
-  // console.log(navigate)
-
   const [user, setUser] = useState<any>({...users});
 
   useEffect(() => {
     setUser({ ...card });
   }, [card]);
 
-  let title = `
-    Имя EN: ${user.name_en}
-    ИМя RUS: ${user.name_ru}
-    Должность: ${user.position}
-    Отдел: ${user.department}
-    Локация: ${user.location}
-    E-mail: ${user.email}
-    Внутренний телефон: ${user.internal_phone}
-    Мобильный телефон:: ${user.mobile_phone}
-    Фактическое расположение: ${user.actual_location}
-    День Рождения: ${user.birthday}
-  `;
+  let title = 
+  `Имя EN: ${user.name_en}
+  Имя RUS: ${user.name_ru}
+  Должность: ${user.position}
+  Отдел: ${user.department}
+  Локация: ${user.location}
+  E-mail: ${user.email}
+  Внутренний телефон: ${user.internal_phone}
+  Мобильный телефон:: ${user.mobile_phone}
+  Фактическое расположение: ${user.actual_location}
+  День Рождения: ${user.birthday}`;
 
   return (
     <>

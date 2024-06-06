@@ -1,10 +1,13 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Search } from "./Search";
 import { IUser } from "../models/IUser";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import PacmanLoader from 'react-spinners/PacmanLoader';
+import { useSearch } from "../hooks/useSearch";
+
+
 
 export const Table: FC = () => {
   const { mediaQuery, heigthPage } = useMediaQuery();
@@ -15,46 +18,68 @@ export const Table: FC = () => {
   const [name, setName] = useState<string>('');
   const [search, setSearch] = useState<IUser[]>([]);
   const [error, setError] = useState<string>('');
+  const [fetch, setFetch] = useState<boolean>(true);
+  const alert = useRef<HTMLDivElement>(null);
+  // const [qqq, setQqq] = useState<string>('');
 
-  const [qwert, setQwert] = useState<string>('');
+  // const nameForSearch = (trewq: string) => {
+  //   return trewq
+  // }
+
+  // useEffect(() => {
+  //   const debounce = setTimeout(() => {
+  //     const myArray = nameForSearch(name);
+  //     setQqq(myArray);
+  //   }, 1000);
+  //   return () => clearTimeout(debounce);
+  // }, [name])
 
   const onInput = (e: any) => {
-    setQwert(e);
+    setName(e.target.value);
+    setSearch([]);
     setCurrentPage(1);
     setFetching(true);
   }
 
   const searchHandler = (e: any) => {
-    e.preventDefault();
-    setName(qwert);
     setSearch([]);
+    setName('');
+    setCurrentPage(1);
+    setFetching(true);
   }
 
   const searchUser = async (name: string, page: number) => {
     if (page > totalPages) {
       page = totalPages
     }
+    setFetch(true);
     await axios.get(`https://backend-x9gt.onrender.com/75ad4124-e29d-4925-904b-a96bb9c84fce/api/v1/users/search?name=${name}&page=${page}`)
-    .then(data => {
-      setTotalPages(data.data.totalPages);
-      setTotalCount(data.data.totalCount);
-      if (data.data.error) {
-        setError(data.data.error);
-        setSearch([]);
-        setCurrentPage(1);
-      } else {
-        setError('')
-        setSearch(() => {
-          if (name) {
-            return [...(search || []), ...(data.data.data || [])]
-          } 
-          else {
-            return [...(search || []), ...(data.data.data || [])]
-          }
-        });
-      }
-    })
-    .finally(() => setFetching(false))
+      .then(data => {
+        setTotalPages(data.data.totalPages);
+        setTotalCount(data.data.totalCount);
+        if (data.data.error) {
+          setError(data.data.error);
+          setSearch([]);
+          setCurrentPage(1);
+        } else {
+          setError('')
+          setSearch(() => {
+            if (name && search) {
+              return [...(search || []), ...(data.data.data || [])]
+            }
+            else if (name.length === 0 && search) {
+              return [...(search || []), ...(data.data.data || [])]
+            }
+            else {
+              return [...(search || []), ...(data.data.data || [])]
+            }
+          });
+        }
+      })
+      .finally(() => {
+        setFetching(false);
+        setFetch(false);
+      })
   }
 
   useEffect(() => {
@@ -64,36 +89,27 @@ export const Table: FC = () => {
   }, [fetching]);
 
   useEffect(() => {
-    // if (name && currentPage) {
-      searchUser(name, currentPage)
-    // }
+    searchUser(name, currentPage)
   }, [name]);
 
-  
-  // console.log("name>>>>", name)
-  // console.log("currentPage>>>>", currentPage)
-  // console.log("search>>>>", search)
-  // console.log("totalCount>>>>", totalCount)
-  // console.log("totalPages>>>>", totalPages)
-
   const handleScroll = (e: any) => {
-    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight-2) {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
       setFetching(true);
       setCurrentPage(prev => prev + 1);
     }
   };
 
-   useEffect(() => {
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  
-  const size = 80;
-
-  if (search.length === 0) {
+  const size = 60;
+  if (!error && !totalCount ) {
+    // if (search.length === 0 && !error ) {
+    // if (fetch) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{marginTop: (heigthPage/2 - size/2)}}>
+      <div className="d-flex justify-content-center align-items-center" style={{ marginTop: (heigthPage / 3 - size / 2) }}>
         <PacmanLoader
           color="#36d7b7"
           cssOverride={{}}
@@ -105,12 +121,10 @@ export const Table: FC = () => {
       </div>
     )
   }
-  
 
   return (
     <>
       <Search onInput={onInput} searchHandler={searchHandler} />
-
       <table className="table table-sm table-hover table-dark table-striped table-bordered table-fixed text-center" style={{ fontSize: 12, textAlign: 'center' }}>
         <thead>
           <tr>
@@ -180,7 +194,7 @@ export const Table: FC = () => {
                 {(mediaQuery === "Small" || mediaQuery === "Extra small") &&
                   <>
                     <td>{user.name_en}</td>
-                    <td>{user.mobile_phone}</td>             
+                    <td>{user.mobile_phone}</td>
                   </>
                 }
 
@@ -233,21 +247,24 @@ export const Table: FC = () => {
                     <td>{user.birthday}</td>
                   </>
                 }
-                <td style={{width: 10}}>
+                <td style={{ width: 10 }}>
                   <Link to={`/${user.id}`} className="mr-1">
                     <button type="button" className="btn btn-outline-success btn-sm">R</button>
                   </Link>
                 </td>
 
-               
+
               </tr>
             ))
           }
         </tbody>
       </table>
-      { error &&
+      {/* <div ref={ alert }> */}
+      {error &&
         <div className="text-center text-red-600 alert alert-danger p-1 w-100" role="alert">{error}</div>
       }
+      {/* </div> */}
+
     </>
 
   )
