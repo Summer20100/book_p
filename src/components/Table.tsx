@@ -34,6 +34,13 @@ export const Table: FC = () => {
   //   return () => clearTimeout(debounce);
   // }, [name])
 
+  // const [phone, setPhone] = useState<string>('');
+  // const [email, setEmail] = useState<string>('');
+  // useEffect(() => {
+  //   user.mobile_phone ? setPhone(`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`) : setPhone('');
+  //   user.email ? setEmail(`mailto:${user.email}`) : setEmail('');
+  // }, [user.mobile_phone]) 
+  
   const onInput = (e: any) => {
     setName(e.target.value);
     setSearch([]);
@@ -104,7 +111,7 @@ export const Table: FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const size = 60;
+  const size = 80;
   if (!error && !totalCount ) {
     // if (search.length === 0 && !error ) {
     // if (fetch) {
@@ -194,7 +201,16 @@ export const Table: FC = () => {
                 {(mediaQuery === "Small" || mediaQuery === "Extra small") &&
                   <>
                     <td>{user.name_en}</td>
-                    <td>{user.mobile_phone}</td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      { user.mobile_phone === 'Нет данных'
+                        ? user.mobile_phone 
+                        : <Link 
+                            to={`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.mobile_phone}</Link>
+                      }
+                    </td>
                   </>
                 }
 
@@ -203,8 +219,26 @@ export const Table: FC = () => {
                     <td>{user.name_en}</td>
                     <td>{user.name_ru}</td>
                     <td>{user.position}</td>
-                    <td>{user.email}</td>
-                    <td style={{ whiteSpace: 'nowrap' }}>{user.mobile_phone}</td>
+                    <td>
+                      { user.email === 'Нет данных'
+                        ? user.email 
+                        : <Link 
+                            to={`mailto:+${user.email}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.email}</Link>
+                      }
+                    </td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      { user.mobile_phone === 'Нет данных'
+                        ? user.mobile_phone 
+                        : <Link 
+                            to={`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.mobile_phone}</Link>
+                      }
+                    </td>
                   </>
                 }
 
@@ -214,8 +248,26 @@ export const Table: FC = () => {
                     <td>{user.name_ru}</td>
                     <td>{user.position}</td>
                     <td>{user.department}</td>
-                    <td>{user.email}</td>
-                    <td style={{ whiteSpace: 'nowrap' }}>{user.mobile_phone}</td>
+                    <td>
+                      { user.email === 'Нет данных'
+                        ? user.email 
+                        : <Link 
+                            to={`mailto:+${user.email}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.email}</Link>
+                      }
+                    </td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      { user.mobile_phone === 'Нет данных'
+                        ? user.mobile_phone 
+                        : <Link 
+                            to={`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.mobile_phone}</Link>
+                      }
+                    </td>
                   </>
                 }
 
@@ -226,9 +278,27 @@ export const Table: FC = () => {
                     <td>{user.position}</td>
                     <td>{user.department}</td>
                     <td>{user.location}</td>
-                    <td>{user.email}</td>
+                    <td>
+                      { user.email === 'Нет данных'
+                        ? user.email 
+                        : <Link 
+                            to={`mailto:+${user.email}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.email}</Link>
+                      }
+                    </td>
                     <td>{user.internal_phone}</td>
-                    <td style={{ whiteSpace: 'nowrap' }}>{user.mobile_phone}</td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      { user.mobile_phone === 'Нет данных'
+                        ? user.mobile_phone 
+                        : <Link 
+                            to={`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.mobile_phone}</Link>
+                      }
+                    </td>
                     <td>{user.actual_location}</td>
                   </>
                 }
@@ -240,9 +310,27 @@ export const Table: FC = () => {
                     <td>{user.position}</td>
                     <td>{user.department}</td>
                     <td>{user.location}</td>
-                    <td>{user.email}</td>
+                    <td>
+                      { user.email === 'Нет данных'
+                        ? user.email 
+                        : <Link 
+                            to={`mailto:+${user.email}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.email}</Link>
+                      }
+                    </td>
                     <td>{user.internal_phone}</td>
-                    <td style={{ whiteSpace: 'nowrap' }}>{user.mobile_phone}</td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      { user.mobile_phone === 'Нет данных'
+                        ? user.mobile_phone 
+                        : <Link 
+                            to={`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`}
+                            className="link-offset-2 link-underline link-underline-opacity-0"
+                            style={{color: 'white'}}
+                          >{user.mobile_phone}</Link>
+                      }
+                    </td>
                     <td>{user.actual_location}</td>
                     <td>{user.birthday}</td>
                   </>

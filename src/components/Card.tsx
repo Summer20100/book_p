@@ -1,5 +1,5 @@
 import { useEffect, useState, FC } from "react"
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import SocialNetvork from "./SocialNetvork";
 
@@ -30,6 +30,13 @@ const Card: FC = ( ) => {
   Фактическое расположение: ${user.actual_location}
   День Рождения: ${user.birthday}`;
 
+  const [phone, setPhone] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  useEffect(() => {
+    user.mobile_phone ? setPhone(`tel:+${user.mobile_phone.replace(/\W|_/g, '')}`) : setPhone('');
+    user.email ? setEmail(`mailto:${user.email}`) : setEmail('');
+  }, [user.mobile_phone]) 
+
   return (
     <>
       <div className="card m-2 align-items-center position-relative" key={user.id}>
@@ -45,64 +52,64 @@ const Card: FC = ( ) => {
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Ф.И.О.:</div>
-              <div className="fs-5">{user.name_ru}</div>
+              <div className="card-text" style={{marginRight: 10}}>Ф.И.О.:</div>
+              <div className="fw-medium">{user.name_ru}</div>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Должность:</div>
-              <div className="fs-5">{user.position}</div>
+              <div className="card-text" style={{marginRight: 10}}>Должность:</div>
+              <div className="fw-medium">{user.position}</div>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Отдел:</div>
-              <div className="fs-5">{user.department}</div>
+              <div className="card-text" style={{marginRight: 10}}>Отдел:</div>
+              <div className="fw-medium">{user.department}</div>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Локация:</div>
-              <div className="fs-5">{user.location}</div>
+              <div className="card-text" style={{marginRight: 10}}>Локация:</div>
+              <div className="fw-medium">{user.location}</div>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">E-mail:</div>
-              <div className="fs-5">{user.email}</div>
+              <div className="card-text" style={{marginRight: 10}}>E-mail:</div>
+              <Link className="fw-medium link-offset-2 link-underline link-underline-opacity-0" to={email} >{user.email}</Link>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Внутренний телефон:</div>
-              <div className="fs-5">{user.internal_phone}</div>
+              <div className="card-text" style={{marginRight: 10}}>Внутренний телефон:</div>
+              <div className="fw-medium">{user.internal_phone}</div>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Мобильный телефон:</div>
-              <div className="fs-5">{user.mobile_phone}</div>
+              <div className="card-text" style={{marginRight: 10}}>Мобильный телефон:</div>
+              <Link className="fw-medium link-offset-2 link-underline link-underline-opacity-0" to={phone} >{user.mobile_phone}</Link>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">Фактическое расположение:</div>
-              <div className="fs-5">{user.actual_location}</div>
+              <div className="card-text" style={{marginRight: 10}}>Фактическое расположение:</div>
+              <div className="fw-medium">{user.actual_location}</div>
             </div>
           </div>
 
           <div>
             <div className="d-inline-flex mb-2">
-              <div className="card-text mr-3 fw-medium pt-1">День Рождения:</div>
-              <div className="fs-5">{user.birthday}</div>
+              <div className="card-text" style={{marginRight: 10}}>День Рождения:</div>
+              <div className="fw-medium">{user.birthday}</div>
             </div>
           </div>
 
