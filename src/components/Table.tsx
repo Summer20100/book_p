@@ -133,7 +133,7 @@ export const Table: FC = () => {
     <>
       <Search onInput={onInput} searchHandler={searchHandler} />
       {/* <table className="table table-sm table-hover table-dark table-striped table-bordered table-fixed text-center" style={{ fontSize: 12, textAlign: 'center' }}> */}
-      <table className="table table-sm table-hover table-bordered table-fixed text-center" style={{ fontSize: 12, textAlign: 'center' }}>
+      <table className="table table-sm table-hover table-dark table-striped table-bordered text-center" style={{ fontSize: 12, textAlign: 'center' }}>
         <thead>
           <tr>
             {(mediaQuery === "Small" || mediaQuery === "Extra small") &&
